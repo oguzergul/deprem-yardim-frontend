@@ -20,3 +20,5 @@ export const FOOD_URL =
 export const TELETEYIT_URL =
   BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
 
+export const SATELLITE_URL =
+  BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";

@@ -17,6 +17,7 @@ type Props = {
   ahbap: any[];
   hospital: any[];
   teleteyit: any[];
+  satellite: any[];
 };
 
 const LayerControl = ({
@@ -26,6 +27,7 @@ const LayerControl = ({
   food,
   hospital,
   teleteyit,
+  satellite,
 }: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
@@ -53,6 +55,9 @@ const LayerControl = ({
       {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
       {mapLayers.includes(MapLayer.Hospital) && (
         <AhbapClusterGroup data={hospital} />
+      )}
+      {mapLayers.includes(MapLayer.Satellite) && (
+        <AhbapClusterGroup data={satellite} />
       )}
     </>
   );

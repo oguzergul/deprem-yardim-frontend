@@ -19,13 +19,13 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
-import { AhbapData, TeleteyitData } from "./types";
+import { AhbapData, TeleteyitData, SatelliteData } from "./types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
   onCopyBillboard: (clipped: string) => void;
-  drawerData: MarkerData | AhbapData | TeleteyitData | null;
+  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
@@ -51,7 +51,11 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
     drawerData.geometry.location.lng,
   ]).format();
 
+  const channel = (drawerData as AhbapData | TeleteyitData | SatelliteData)
+    .channel;
+
   const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp);
+  const allowedChannels = ["ahbap", "teleteyit", "uydu"];
 
   const hasSource =
     data &&
@@ -63,6 +67,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
 
   const title = data?.formatted_address ?? (drawerData as any).properties?.name;
 
+  // @ts-ignore
+  // @ts-ignore
   // @ts-ignore
   return (
     <Box
@@ -165,11 +171,11 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             </div>
           </div>
 
-          {(data ||
-            (drawerData as AhbapData).channel === "ahbap" ||
-            (drawerData as TeleteyitData).channel === "teleteyit") && (
-            <FeedContent content={data ?? (drawerData as AhbapData)} />
-          )}
+          {/* eslint-disable-next-line no-constant-condition */}
+          {data || allowedChannels.includes(channel) ? (
+            //@ts-ignore
+            <FeedContent content={data ?? drawerData} />
+          ) : null}
         </div>
       )}
 

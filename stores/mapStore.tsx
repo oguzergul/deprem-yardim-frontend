@@ -1,6 +1,7 @@
 import {
   AhbapData,
   TeleteyitData,
+  SatelliteData,
 } from "@/components/UI/Drawer/components/types";
 import { create } from "zustand";
 import {
@@ -24,6 +25,7 @@ export enum MapLayer {
   Hospital = "Hospital",
   Food = "Food",
   Teleteyit = "Teleteyit",
+  Satellite = "Satellite",
 }
 
 interface MapState {
@@ -63,6 +65,7 @@ export const useMapStore = create<MapState>()((set) => ({
     MapLayer.Hospital,
     MapLayer.Food,
     MapLayer.Teleteyit,
+    MapLayer.Satellite,
   ],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
